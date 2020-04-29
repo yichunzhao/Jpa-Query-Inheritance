@@ -6,7 +6,6 @@ import lombok.Data;
 import javax.persistence.Entity;
 
 @Data
-@AllArgsConstructor
 @Entity
 public class Enhancement extends Ticket {
     private Boolean duplicate;

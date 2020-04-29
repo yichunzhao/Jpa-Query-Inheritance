@@ -2,9 +2,7 @@ package com.ynz.jpa.entities;
 
 import lombok.Data;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 
 @Data
 @MappedSuperclass
@@ -15,4 +13,12 @@ public class Ticket {
 
     private String title;
     private String description;
+
+    @ManyToOne
+    @JoinColumn(name = "fk_application")
+    private Application application;
+
+    @OneToOne
+    private Release release;
+
 }
