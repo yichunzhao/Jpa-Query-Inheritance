@@ -1,5 +1,6 @@
 package com.ynz.jpa.entities;
 
+
 import lombok.Data;
 
 import javax.persistence.*;
