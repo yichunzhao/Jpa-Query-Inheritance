@@ -16,7 +16,7 @@ public class BugService implements IBugService {
     }
 
     @Override
-    public void addBug(Bug bug) {
-
+    public Bug addBug(Bug bug) {
+        return bugRepository.save(bug);
     }
 }

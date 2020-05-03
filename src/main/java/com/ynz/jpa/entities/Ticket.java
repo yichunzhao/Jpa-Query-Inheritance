@@ -1,6 +1,7 @@
 package com.ynz.jpa.entities;
 
 import lombok.Data;
+import org.hibernate.mapping.ToOne;
 
 import javax.persistence.*;
 
@@ -18,7 +19,8 @@ public class Ticket {
     @JoinColumn(name = "fk_application")
     private Application application;
 
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "fk_release")
     private Release release;
 
 }
