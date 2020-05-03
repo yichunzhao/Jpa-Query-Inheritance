@@ -38,10 +38,11 @@ public class ReleaseService implements IReleaseService {
     }
 
     @Override
-    public void addApplication(Integer appId, Integer releaseId) {
+    public  Release addApplication(Integer appId, Integer releaseId) {
         Release release = getReleaseById(releaseId);
         Application application = applicationService.getApplicationById(appId);
 
         release.setApplication(application);
+        return releaseRepository.save(release);
     }
 }

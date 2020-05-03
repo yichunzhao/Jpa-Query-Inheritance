@@ -8,6 +8,5 @@ import javax.persistence.Entity;
 @Entity
 public class Enhancement extends Ticket {
     private Boolean duplicate;
-
     private String priority;
 }
