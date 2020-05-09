@@ -33,6 +33,10 @@ public class Release {
     @OneToMany(mappedBy = "release")
     private Set<Enhancement> enhancements = new HashSet<>();
 
+    public void linkToApplication(Application application){
+        application.addRelease(this);
+    }
+
     public void addBug(Bug bug) {
         this.bugs.add(bug);
         bug.setRelease(this);

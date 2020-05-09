@@ -37,12 +37,15 @@ public class ReleaseService implements IReleaseService {
         return releaseRepository.save(found);
     }
 
+    //associate a release to an application.
     @Override
-    public  Release addApplication(Integer appId, Integer releaseId) {
+    public Release addApplication(Integer appId, Integer releaseId) {
         Release release = getReleaseById(releaseId);
         Application application = applicationService.getApplicationById(appId);
 
-        release.setApplication(application);
+        //this method is designed to build a bilateral relationship.
+        release.linkToApplication(application);
+
         return releaseRepository.save(release);
     }
 }
