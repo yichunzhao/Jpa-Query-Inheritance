@@ -1,13 +1,15 @@
 package com.ynz.jpa.service;
 
 import com.ynz.jpa.entities.Bug;
+import com.ynz.jpa.exceptions.NotFoundException;
 import com.ynz.jpa.repositories.BugRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class BugService implements IBugService, ITicketService<Bug> {
+public class BugService implements ITicketService<Bug> {
 
     private BugRepository bugRepository;
 
@@ -16,33 +18,33 @@ public class BugService implements IBugService, ITicketService<Bug> {
     }
 
     @Override
-    public Bug addBug(Bug bug) {
-        return null;
+    public Bug addTicket(Bug bug) {
+        return bugRepository.save(bug);
     }
 
     @Override
     public List<Bug> getAllTickets() {
-        return null;
+        List<Bug> bugs = new ArrayList<>();
+        bugRepository.findAll().forEach(bug -> bugs.add(bug));
+        return bugs;
     }
 
     @Override
     public Bug getTicketById(int ticketId) {
-        return null;
+        return bugRepository.findById(ticketId)
+                .orElseThrow(() -> new NotFoundException("Ticket: " + ticketId + " is not found."));
     }
 
     @Override
-    public void addTicket(Bug ticket) {
-
-    }
-
-    @Override
-    public void updateTicket(Bug ticket) {
-
+    public Bug updateTicket(Bug ticket) {
+        getTicketById(ticket.getId());
+        return bugRepository.save(ticket);
     }
 
     @Override
     public void deleteTicket(int ticketId) {
-
+        getTicketById(ticketId);
+        bugRepository.deleteById(ticketId);
     }
 
     @Override

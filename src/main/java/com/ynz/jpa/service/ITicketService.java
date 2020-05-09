@@ -10,9 +10,9 @@ public interface ITicketService<T extends Ticket> {
 
     T getTicketById(int ticketId);
 
-    void addTicket(T ticket);
+    T addTicket(T ticket);
 
-    void updateTicket(T ticket);
+    T updateTicket(T ticket);
 
     void deleteTicket(int ticketId);
 
