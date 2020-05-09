@@ -1,12 +1,14 @@
 package com.ynz.jpa.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
-import org.hibernate.mapping.ToOne;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 
 @Data
 @MappedSuperclass
+@JsonIgnoreProperties("application")
 public class Ticket {
     @Id
     @GeneratedValue
@@ -16,11 +18,13 @@ public class Ticket {
     private String description;
 
     @ManyToOne
-    @JoinColumn(name = "fk_application")
+    @JoinColumn
+    @EqualsAndHashCode.Exclude
     private Application application;
 
     @ManyToOne
-    @JoinColumn(name = "fk_release")
+    @JoinColumn
+    @EqualsAndHashCode.Exclude
     private Release release;
 
 }

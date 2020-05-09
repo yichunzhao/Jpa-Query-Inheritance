@@ -1,6 +1,8 @@
 package com.ynz.jpa.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -9,6 +11,7 @@ import java.util.Set;
 
 @Entity
 @Data
+@JsonIgnoreProperties("application")
 public class Release {
     @Id
     @GeneratedValue
@@ -20,7 +23,8 @@ public class Release {
     private String description;
 
     @ManyToOne
-    @JoinColumn(name = "fk_Application")
+    @JoinColumn
+    @EqualsAndHashCode.Exclude
     private Application application;
 
     @OneToMany(mappedBy = "release")
@@ -31,10 +35,12 @@ public class Release {
 
     public void addBug(Bug bug) {
         this.bugs.add(bug);
+        bug.setRelease(this);
     }
 
     public void addEnhancement(Enhancement enhancement) {
         this.enhancements.add(enhancement);
+        enhancement.setRelease(this);
     }
 
 }

@@ -101,6 +101,12 @@ public class BugTraceController {
         return new ResponseEntity(ReleaseDto.toDto(added), headers, HttpStatus.CREATED);
     }
 
+//    @GetMapping("/release/{releaseId}")
+//    public ResponseEntity<ReleaseDto> getReleaseById(@PathVariable("releaseId") int releaseId){
+//        log.info("In http request handler: getReleaseById ");
+//        releaseService.
+//    }
+
     @PostMapping("/release/{appId}/{releaseId}")
     public ResponseEntity<ReleaseDto> addApplicationToRelease(@PathVariable("appId") int appId, @PathVariable("releaseId") int releaseId) {
         log.info("In http request handler: addApplicationToRelease ");

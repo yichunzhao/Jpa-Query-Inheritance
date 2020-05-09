@@ -20,28 +20,32 @@ public class Application {
 
     @Column(length = 2000)
     private String description;
+
+    @Column(nullable = false)
     private String owner;
 
-    @OneToMany(mappedBy = "application", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "application", cascade = CascadeType.PERSIST)
     private Set<Release> releases = new HashSet<>();
 
-    @OneToMany(mappedBy = "application", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "application", cascade = CascadeType.PERSIST)
     private Set<Bug> bugs = new HashSet<>();
 
-    @OneToMany(mappedBy = "application", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "application", cascade = CascadeType.PERSIST)
     private Set<Enhancement> enhancements = new HashSet<>();
 
     public void addRelease(Release release) {
         this.releases.add(release);
+        release.setApplication(this);
     }
 
     public void addBug(Bug bug) {
         this.bugs.add(bug);
+        bug.setApplication(this);
     }
 
     public void addEnhancement(Enhancement enhancement) {
         this.enhancements.add(enhancement);
+        enhancement.setApplication(this);
     }
-
 
 }

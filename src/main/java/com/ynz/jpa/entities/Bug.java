@@ -7,8 +7,6 @@ import javax.persistence.Entity;
 @Data
 @Entity
 public class Bug extends Ticket {
-
     private int severity;
     private String rootCause;
-
 }
