@@ -15,13 +15,13 @@ public class Application {
     @GeneratedValue
     private int id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String name;
 
     @Column(length = 2000)
     private String description;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String owner;
 
     @OneToMany(mappedBy = "application", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)

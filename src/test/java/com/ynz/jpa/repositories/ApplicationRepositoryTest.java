@@ -16,8 +16,7 @@ import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 @ExtendWith(SpringExtension.class)
@@ -68,5 +67,25 @@ class ApplicationRepositoryTest {
         List<Enhancement> enhancementFound = applicationRepository.getEnhancementsWithApps(persisted.getId());
         assertThat(enhancementFound, hasSize(1));
     }
+
+    @Test
+    public void whenGivenTwoDifferentApplication_ThenItReturnCountEqualTwo() {
+        String applicationName1 = "new-application-1";
+        String owner1 = "owner-001";
+
+        Application application1 = new Application();
+        application1.setName(applicationName1);
+        application1.setOwner(owner1);
+
+        String applicationName2 = "new-application-2";
+        String owner2 = "owner-002";
+
+        entityManager.persistAndFlush(application1);
+
+        assertTrue(applicationRepository.applicationExists(applicationName1, owner1));
+
+        assertFalse(applicationRepository.applicationExists(applicationName2, owner2));
+    }
+
 
 }

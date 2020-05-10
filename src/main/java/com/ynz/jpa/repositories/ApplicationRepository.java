@@ -16,4 +16,8 @@ public interface ApplicationRepository extends CrudRepository<Application, Integ
     @Query("select a.enhancements from Application a where a.id = :applicationId")
     List<Enhancement> getEnhancementsWithApps(@Param("applicationId") int applicationId);
 
+    //JPQ query count followed by Comparision operators.
+    @Query("select count(a)>0 from Application a where a.name = :name and a.owner =:owner")
+    boolean applicationExists(@Param("name") String name, @Param("owner") String owner);
+
 }
