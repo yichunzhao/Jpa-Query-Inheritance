@@ -44,7 +44,7 @@ public class BugTraceController {
         log.info("in http request handler: createApplication ");
         Application added = applicationService.addApplication(applicationDto.toDomain());
 
-        if (added == null) return new ResponseEntity(null, HttpStatus.CONFLICT);
+        if (added == null) return new ResponseEntity(null,null, HttpStatus.CONFLICT);
 
         URI callback = builder.path("/application").buildAndExpand(added.getId()).toUri();
         HttpHeaders headers = new HttpHeaders();

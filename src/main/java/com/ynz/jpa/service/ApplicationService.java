@@ -15,6 +15,9 @@ public class ApplicationService implements IApplicationService {
 
     @Override
     public Application addApplication(Application application) {
+        boolean existed = applicationRepository.applicationExists(application.getName(), application.getOwner());
+        if (existed) return null;
+
         return applicationRepository.save(application);
     }
 

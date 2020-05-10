@@ -17,7 +17,7 @@ public class Ticket {
     private String title;
     private String description;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn
     @EqualsAndHashCode.Exclude
     private Application application;
