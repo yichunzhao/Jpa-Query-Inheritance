@@ -1,6 +1,7 @@
 package com.ynz.jpa.dto;
 
 import com.ynz.jpa.entities.Enhancement;
+import com.ynz.jpa.entities.Priority;
 import lombok.Data;
 
 @Data
@@ -11,7 +12,7 @@ public class EnhancementDto extends TicketDto {
     public Enhancement toDomain() {
         Enhancement enhancement = new Enhancement();
         enhancement.setDuplicate(this.duplicate);
-        enhancement.setPriority(this.priority);
+        enhancement.setPriority(Priority.valueOf(this.priority));
         enhancement.setApplication(this.application);
         enhancement.setId(this.id);
         enhancement.setRelease(this.release);
@@ -23,7 +24,7 @@ public class EnhancementDto extends TicketDto {
     public static EnhancementDto toDto(Enhancement enhancement) {
         EnhancementDto enhancementDto = new EnhancementDto();
         enhancementDto.setDuplicate(enhancement.getDuplicate());
-        enhancementDto.setPriority(enhancement.getPriority());
+        enhancementDto.setPriority(enhancement.getPriority().name());
         enhancementDto.setApplication(enhancement.getApplication());
         enhancementDto.setDescription(enhancement.getDescription());
         enhancementDto.setId(enhancement.getId());

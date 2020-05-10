@@ -24,13 +24,13 @@ public class Application {
     @Column(nullable = false)
     private String owner;
 
-    @OneToMany(mappedBy = "application", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "application", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private Set<Release> releases = new HashSet<>();
 
-    @OneToMany(mappedBy = "application", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "application", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private Set<Bug> bugs = new HashSet<>();
 
-    @OneToMany(mappedBy = "application", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "application", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private Set<Enhancement> enhancements = new HashSet<>();
 
     public void addRelease(Release release) {

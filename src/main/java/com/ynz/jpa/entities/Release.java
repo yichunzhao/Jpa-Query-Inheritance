@@ -27,13 +27,13 @@ public class Release {
     @EqualsAndHashCode.Exclude
     private Application application;
 
-    @OneToMany(mappedBy = "release")
+    @OneToMany(mappedBy = "release", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private Set<Bug> bugs = new HashSet<>();
 
-    @OneToMany(mappedBy = "release")
+    @OneToMany(mappedBy = "release", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private Set<Enhancement> enhancements = new HashSet<>();
 
-    public void linkToApplication(Application application){
+    public void linkToApplication(Application application) {
         application.addRelease(this);
     }
 
