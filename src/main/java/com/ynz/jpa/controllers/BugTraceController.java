@@ -116,5 +116,12 @@ public class BugTraceController {
         return new ResponseEntity(ReleaseDto.toDto(updated), HttpStatus.OK);
     }
 
+    @GetMapping("/enhancementsWithApp")
+    public ResponseEntity<EnhancementDto> getEnhancementsWithApp(){
+
+        return new ResponseEntity(HttpStatus.OK);
+
+    }
+
 
 }

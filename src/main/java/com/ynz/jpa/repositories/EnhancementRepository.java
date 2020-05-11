@@ -13,4 +13,8 @@ public interface EnhancementRepository extends CrudRepository<Enhancement, Integ
     @Query("select e from Enhancement e order by e.title")
     List<Enhancement> getAllEnhancementOrderedByTitle();
 
+    //JPQL inner join.
+    @Query("select e from Enhancement e join e.application")
+    List<Enhancement> getEnhancementsApp();
+
 }
