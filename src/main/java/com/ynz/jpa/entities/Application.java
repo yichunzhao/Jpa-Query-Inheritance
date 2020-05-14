@@ -21,7 +21,7 @@ public class Application {
     @Column(length = 2000)
     private String description;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String owner;
 
     @OneToMany(mappedBy = "application", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)

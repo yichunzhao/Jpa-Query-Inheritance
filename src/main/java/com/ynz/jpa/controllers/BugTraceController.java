@@ -21,6 +21,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 
 @RestController
 @RequestMapping("/trace")
@@ -44,7 +47,7 @@ public class BugTraceController {
         log.info("in http request handler: createApplication ");
         Application added = applicationService.addApplication(applicationDto.toDomain());
 
-        if (added == null) return new ResponseEntity(null,null, HttpStatus.CONFLICT);
+        if (added == null) return new ResponseEntity(null, null, HttpStatus.CONFLICT);
 
         URI callback = builder.path("/application").buildAndExpand(added.getId()).toUri();
         HttpHeaders headers = new HttpHeaders();
@@ -54,7 +57,7 @@ public class BugTraceController {
     }
 
     @GetMapping("/application/{id}")
-    public ResponseEntity<Application> getApplication(@PathVariable("id") int id) {
+    public ResponseEntity<ApplicationDto> getApplication(@PathVariable("id") int id) {
         log.info("in http request handler: getApplication ");
         Application found = applicationService.getApplicationById(id);
         return new ResponseEntity(ApplicationDto.toDto(found), HttpStatus.FOUND);
@@ -101,12 +104,6 @@ public class BugTraceController {
         return new ResponseEntity(ReleaseDto.toDto(added), headers, HttpStatus.CREATED);
     }
 
-//    @GetMapping("/release/{releaseId}")
-//    public ResponseEntity<ReleaseDto> getReleaseById(@PathVariable("releaseId") int releaseId){
-//        log.info("In http request handler: getReleaseById ");
-//        releaseService.
-//    }
-
     @PostMapping("/release/{appId}/{releaseId}")
     public ResponseEntity<ReleaseDto> addApplicationToRelease(@PathVariable("appId") int appId, @PathVariable("releaseId") int releaseId) {
         log.info("In http request handler: addApplicationToRelease ");
@@ -116,10 +113,16 @@ public class BugTraceController {
         return new ResponseEntity(ReleaseDto.toDto(updated), HttpStatus.OK);
     }
 
-    @GetMapping("/enhancementsWithApp")
-    public ResponseEntity<EnhancementDto> getEnhancementsWithApp(){
+    @GetMapping("/enhancementsWithApp/{applicationId}")
+    public ResponseEntity<EnhancementDto> getEnhancementsWithApp(@PathVariable("applicationId") int applicationId) {
+        log.info("get enhancements by application id ");
 
-        return new ResponseEntity(HttpStatus.OK);
+        List<EnhancementDto> found = applicationService.getEnhancementsWithApps(applicationId)
+                .stream()
+                .map(enhancement -> EnhancementDto.toDto(enhancement))
+                .collect(toList());
+
+        return new ResponseEntity(found, HttpStatus.FOUND);
 
     }
 

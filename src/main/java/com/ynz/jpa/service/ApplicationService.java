@@ -1,9 +1,12 @@
 package com.ynz.jpa.service;
 
 import com.ynz.jpa.entities.Application;
+import com.ynz.jpa.entities.Enhancement;
 import com.ynz.jpa.exceptions.NotFoundException;
 import com.ynz.jpa.repositories.ApplicationRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ApplicationService implements IApplicationService {
@@ -25,6 +28,11 @@ public class ApplicationService implements IApplicationService {
     public Application getApplicationById(int applicationId) {
         return applicationRepository.findById(applicationId)
                 .orElseThrow(() -> new NotFoundException("Application " + applicationId + " is not found."));
+    }
+
+    @Override
+    public List<Enhancement> getEnhancementsWithApps(int applicationId) {
+        return applicationRepository.getEnhancementsWithApps(applicationId);
     }
 
     @Override

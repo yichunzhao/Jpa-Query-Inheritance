@@ -10,8 +10,6 @@ public class BugDto extends TicketDto {
 
     public Bug toDomain() {
         Bug bug = new Bug();
-
-        bug.setId(this.id);
         bug.setRootCause(this.rootCause);
         bug.setSeverity(this.severity);
         bug.setApplication(this.application);

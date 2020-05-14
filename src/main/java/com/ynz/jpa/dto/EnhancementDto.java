@@ -14,7 +14,6 @@ public class EnhancementDto extends TicketDto {
         enhancement.setDuplicate(this.duplicate);
         enhancement.setPriority(Priority.valueOf(this.priority));
         enhancement.setApplication(this.application);
-        enhancement.setId(this.id);
         enhancement.setRelease(this.release);
         enhancement.setDescription(this.description);
         enhancement.setTitle(this.title);
