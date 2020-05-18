@@ -3,8 +3,10 @@ package com.ynz.jpa.dto;
 import com.ynz.jpa.entities.Enhancement;
 import com.ynz.jpa.entities.Priority;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class EnhancementDto extends TicketDto {
     private Boolean duplicate;
     private String priority;

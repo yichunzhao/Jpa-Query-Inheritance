@@ -2,8 +2,10 @@ package com.ynz.jpa.dto;
 
 import com.ynz.jpa.entities.Bug;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class BugDto extends TicketDto {
     private int severity;
     private String rootCause;
