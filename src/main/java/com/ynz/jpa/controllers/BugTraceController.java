@@ -9,11 +9,11 @@ import com.ynz.jpa.entities.Bug;
 import com.ynz.jpa.entities.Enhancement;
 import com.ynz.jpa.entities.Release;
 import com.ynz.jpa.service.IApplicationService;
-import com.ynz.jpa.service.IBugService;
-import com.ynz.jpa.service.IEnhancementService;
 import com.ynz.jpa.service.IReleaseService;
+import com.ynz.jpa.service.ITicketService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,10 +34,12 @@ public class BugTraceController {
     private IApplicationService applicationService;
 
     @Autowired
-    private IBugService bugService;
+    @Qualifier("bugService")
+    private ITicketService<Bug> bugService;
 
     @Autowired
-    private IEnhancementService enhancementService;
+    @Qualifier("enhancementService")
+    private ITicketService<Enhancement> enhancementService;
 
     @Autowired
     private IReleaseService releaseService;
@@ -66,7 +68,8 @@ public class BugTraceController {
     @PostMapping("/bug")
     public ResponseEntity<BugDto> createBug(@RequestBody BugDto bugDto, UriComponentsBuilder builder) {
         log.info("In http request handler: createBug ");
-        Bug added = bugService.addBug(bugDto.toDomain());
+        //Bug added = bugService.addBug(bugDto.toDomain());
+        Bug added = bugService.addTicket(bugDto.toDomain());
 
         if (added == null) return new ResponseEntity(HttpStatus.CONFLICT);
 
@@ -80,7 +83,8 @@ public class BugTraceController {
     @PostMapping("/enhancement")
     public ResponseEntity<Enhancement> createEnhancement(@RequestBody EnhancementDto enhancementDto, UriComponentsBuilder builder) {
         log.info("In http request handler: createEnhancement ");
-        Enhancement added = enhancementService.addEnhancement(enhancementDto.toDomain());
+        //Enhancement added = enhancementService.addEnhancement(enhancementDto.toDomain());
+        Enhancement added = enhancementService.addTicket(enhancementDto.toDomain());
 
         if (added == null) return new ResponseEntity<>(HttpStatus.CONFLICT);
 

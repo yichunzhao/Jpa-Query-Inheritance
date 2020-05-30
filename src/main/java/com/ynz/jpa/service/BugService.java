@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
+@Service("bugService")
 public class BugService implements ITicketService<Bug> {
 
     private BugRepository bugRepository;
