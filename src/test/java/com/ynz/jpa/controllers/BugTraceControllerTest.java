@@ -2,9 +2,11 @@ package com.ynz.jpa.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ynz.jpa.dto.ApplicationDto;
+import com.ynz.jpa.dto.ReleaseDto;
 import com.ynz.jpa.entities.Application;
 import com.ynz.jpa.entities.Bug;
 import com.ynz.jpa.entities.Enhancement;
+import com.ynz.jpa.entities.Release;
 import com.ynz.jpa.service.IApplicationService;
 import com.ynz.jpa.service.IReleaseService;
 import com.ynz.jpa.service.ITicketService;
@@ -17,6 +19,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.time.LocalDate;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -98,6 +102,30 @@ class BugTraceControllerTest {
                 .content(mapper.writeValueAsString(applicationDto))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isConflict());
+    }
+
+    @Test
+    public void testPostRelease() throws Exception {
+        int releaseId = 12;
+        String releaseDate = LocalDate.of(2020, 12, 10).toString();
+        String releaseDescription = "release-description";
+
+        ReleaseDto releaseDto = ReleaseDto.builder().releaseDate(releaseDate).description(releaseDescription).build();
+
+        Release release = new Release();
+        release.setId(releaseId);
+        release.setReleaseDate(LocalDate.parse(releaseDate));
+        release.setDescription(releaseDescription);
+
+        when(releaseService.addRelease(any(Release.class))).thenReturn(release);
+
+        mockMvc.perform(post("/trace/release")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(releaseDto)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.id").value(releaseId))
+                .andExpect(jsonPath("$.releaseDate").value(releaseDate))
+                .andExpect(jsonPath("$.description").value(releaseDescription));
     }
 
 

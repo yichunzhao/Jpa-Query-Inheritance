@@ -14,10 +14,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class ReleaseDto {
     private int id;
 
-    private LocalDate releaseDate;
+    private String releaseDate;
 
     private String description;
 
@@ -38,7 +41,7 @@ public class ReleaseDto {
     public Release toDomain() {
         Release release = new Release();
         release.setApplication(this.application);
-        release.setReleaseDate(this.releaseDate);
+        release.setReleaseDate(LocalDate.parse(this.releaseDate));
         release.setDescription(this.description);
         release.setEnhancements(this.enhancements);
         release.setBugs(this.bugs);
@@ -47,11 +50,13 @@ public class ReleaseDto {
 
     public static ReleaseDto toDto(Release release) {
         ReleaseDto releaseDto = new ReleaseDto();
+        releaseDto.setId(release.getId());
         releaseDto.setApplication(release.getApplication());
         releaseDto.setBugs(release.getBugs());
         releaseDto.setDescription(release.getDescription());
         releaseDto.setEnhancements(release.getEnhancements());
-        releaseDto.setReleaseDate(release.getReleaseDate());
+        releaseDto.setReleaseDate(release.getReleaseDate() != null ? release.getReleaseDate().toString() : "");
+
         return releaseDto;
     }
 
