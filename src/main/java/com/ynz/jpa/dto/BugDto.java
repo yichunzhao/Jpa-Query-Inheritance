@@ -1,8 +1,7 @@
 package com.ynz.jpa.dto;
 
 import com.ynz.jpa.entities.Bug;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 @Data
 @EqualsAndHashCode(callSuper = true)

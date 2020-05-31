@@ -4,7 +4,10 @@ import com.ynz.jpa.entities.Application;
 import com.ynz.jpa.entities.Bug;
 import com.ynz.jpa.entities.Enhancement;
 import com.ynz.jpa.entities.Release;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.HashSet;

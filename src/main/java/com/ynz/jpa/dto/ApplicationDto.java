@@ -2,11 +2,17 @@ package com.ynz.jpa.dto;
 
 
 import com.ynz.jpa.entities.Application;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class ApplicationDto {
     private int id;
 

@@ -2,8 +2,7 @@ package com.ynz.jpa.dto;
 
 import com.ynz.jpa.entities.Enhancement;
 import com.ynz.jpa.entities.Priority;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
