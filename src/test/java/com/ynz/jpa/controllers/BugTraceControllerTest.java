@@ -12,6 +12,7 @@ import com.ynz.jpa.service.IReleaseService;
 import com.ynz.jpa.service.ITicketService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -22,8 +23,10 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -81,6 +84,10 @@ class BugTraceControllerTest {
                 .andExpect(jsonPath("$.id").value(id))
                 .andExpect(jsonPath("$.name").value(name))
                 .andExpect(jsonPath("$.owner").value(owner));
+
+        ArgumentCaptor<Application> argument = ArgumentCaptor.forClass(Application.class);
+        verify(applicationService, times(1)).addApplication(argument.capture());
+        assertThat(applicationDto.toDomain(), is(argument.getValue()));
     }
 
     @Test
@@ -102,6 +109,10 @@ class BugTraceControllerTest {
                 .content(mapper.writeValueAsString(applicationDto))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isConflict());
+
+        ArgumentCaptor<Application> argument = ArgumentCaptor.forClass(Application.class);
+        verify(applicationService, times(1)).addApplication(argument.capture());
+        assertThat(applicationDto.toDomain(),is(argument.getValue()));
     }
 
     @Test
@@ -126,6 +137,10 @@ class BugTraceControllerTest {
                 .andExpect(jsonPath("$.id").value(releaseId))
                 .andExpect(jsonPath("$.releaseDate").value(releaseDate))
                 .andExpect(jsonPath("$.description").value(releaseDescription));
+
+        ArgumentCaptor<Release> argument = ArgumentCaptor.forClass(Release.class);
+        verify(releaseService, times(1)).addRelease(argument.capture());
+        assertThat(releaseDto.toDomain(),is(argument.getValue()));
     }
 
 
