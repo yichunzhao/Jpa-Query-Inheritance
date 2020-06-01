@@ -23,8 +23,9 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
  * demo an Integration test on a controller. An integration test includes all layers.
  * difference between mockMvc and testRestTemplate
  * <p>
- * mockMvc may used for server-side;
- * testRestTemplate used for testing client-side rest services.
+ * mockMvc maybe used for a server-side or an unit test;
+ * testRestTemplate used for testing services from a client-side.
+ * </p>
  */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT)
