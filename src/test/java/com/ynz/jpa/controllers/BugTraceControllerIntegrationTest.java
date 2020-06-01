@@ -8,6 +8,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -22,16 +23,20 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
  * demo an Integration test on a controller. An integration test includes all layers.
  * difference between mockMvc and testRestTemplate
  * <p>
- * mockMvc may used for server-side
+ * mockMvc may used for server-side;
  * testRestTemplate used for testing client-side rest services.
  */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @Slf4j
 class BugTraceControllerIntegrationTest {
+    private final StringBuilder urlRoot = new StringBuilder("http://localhost:");
 
     @Autowired
     private TestRestTemplate testRestTemplate;
+
+    @LocalServerPort
+    private int port;
 
     @Test
     public void testCreateApplication() {
@@ -39,7 +44,8 @@ class BugTraceControllerIntegrationTest {
         String owner = "ynz";
         ApplicationDto toBeCreated = ApplicationDto.builder().name(applicationName).owner(owner).build();
 
-        ResponseEntity<ApplicationDto> response = testRestTemplate.postForEntity("/trace/application", toBeCreated, ApplicationDto.class);
+        ResponseEntity<ApplicationDto> response = testRestTemplate.postForEntity(
+                urlRoot.append(port).append("/trace/application").toString(), toBeCreated, ApplicationDto.class);
         assertThat(response.getStatusCode(), is(HttpStatus.CREATED));
 
         ApplicationDto applicationDto = response.getBody();
@@ -54,7 +60,8 @@ class BugTraceControllerIntegrationTest {
         String releaseDate = LocalDate.of(2020, 10, 12).toString();
         ReleaseDto toBeCreated = ReleaseDto.builder().description(description).releaseDate(releaseDate).build();
 
-        ResponseEntity<ReleaseDto> response = testRestTemplate.postForEntity("/trace/release", toBeCreated, ReleaseDto.class);
+        ResponseEntity<ReleaseDto> response = testRestTemplate.postForEntity(
+                urlRoot.append(port).append("/trace/release").toString(), toBeCreated, ReleaseDto.class);
         assertThat(response.getStatusCode(), is(HttpStatus.CREATED));
 
         ReleaseDto releaseDto = response.getBody();

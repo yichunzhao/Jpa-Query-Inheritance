@@ -56,6 +56,7 @@ public class BugTraceController {
         headers.setLocation(callback);
 
         return new ResponseEntity(ApplicationDto.toDto(added), headers, HttpStatus.CREATED);
+
     }
 
     @GetMapping("/application/{id}")
@@ -74,6 +75,7 @@ public class BugTraceController {
         if (added == null) return new ResponseEntity(HttpStatus.CONFLICT);
 
         URI callback = builder.path("/bug").buildAndExpand(added.getId()).toUri();
+
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(callback);
 
