@@ -28,6 +28,7 @@ import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -132,7 +133,7 @@ class BugTraceControllerTest {
 
         mockMvc.perform(post("/trace/release")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(releaseDto)))
+                .content(mapper.writeValueAsString(releaseDto))).andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value(releaseId))
                 .andExpect(jsonPath("$.releaseDate").value(releaseDate))
