@@ -31,7 +31,6 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
  * </p>
  */
 
-@ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @Import(MyTestConfiguration.class)
 @Slf4j
