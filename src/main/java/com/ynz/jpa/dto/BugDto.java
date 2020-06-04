@@ -5,6 +5,9 @@ import lombok.*;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class BugDto extends TicketDto {
     private int severity;
     private String rootCause;

@@ -9,8 +9,6 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class TicketDto {
     protected int id;
     protected String title;

@@ -6,6 +6,8 @@ import lombok.*;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
+@AllArgsConstructor
 public class EnhancementDto extends TicketDto {
     private Boolean duplicate;
     private String priority;
