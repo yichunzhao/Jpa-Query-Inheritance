@@ -36,8 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Unit test for a Controller alone. Cutting across the service layer by mocking it.
  */
 
-@ExtendWith(SpringExtension.class)
-@WebMvcTest(BugTraceController.class)
+@WebMvcTest(controllers = BugTraceController.class)
 class BugTraceControllerTest {
 
     @MockBean

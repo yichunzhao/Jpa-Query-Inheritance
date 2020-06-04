@@ -19,8 +19,15 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @DataJpaTest provides some standard setup needed for testing the persistence layer:
+ *
+ * configuring H2, an in-memory database
+ * setting Hibernate, Spring Data, and the DataSource
+ * performing an @EntityScan
+ * turning on SQL logging
+ */
 
-@ExtendWith(SpringExtension.class)
 @DataJpaTest
 class ApplicationRepositoryTest {
 
