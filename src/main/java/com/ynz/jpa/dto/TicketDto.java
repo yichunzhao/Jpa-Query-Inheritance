@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class TicketDto {
-    protected int id;
+    protected Integer id;
     protected String title;
     protected String description;
     protected Application application;

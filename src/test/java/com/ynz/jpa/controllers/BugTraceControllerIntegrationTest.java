@@ -5,6 +5,7 @@ import com.ynz.jpa.dto.ApplicationDto;
 import com.ynz.jpa.dto.BugDto;
 import com.ynz.jpa.dto.ReleaseDto;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,6 +14,7 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 
@@ -31,6 +33,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @Import(MyTestConfiguration.class)
+@Transactional
 @Slf4j
 class BugTraceControllerIntegrationTest {
     @LocalServerPort

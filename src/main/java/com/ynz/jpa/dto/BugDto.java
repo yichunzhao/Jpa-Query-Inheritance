@@ -9,7 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class BugDto extends TicketDto {
-    private int severity;
+    private Integer severity;
     private String rootCause;
 
     public Bug toDomain() {

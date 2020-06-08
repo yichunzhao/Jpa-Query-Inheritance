@@ -14,8 +14,8 @@ import java.util.Set;
 @JsonIgnoreProperties("application")
 public class Release {
     @Id
-    @GeneratedValue
-    private int id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
 
     @Column(name = "Release_Date")
     private LocalDate releaseDate;

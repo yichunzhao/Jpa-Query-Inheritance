@@ -14,7 +14,7 @@ import javax.validation.constraints.NotEmpty;
 @AllArgsConstructor
 @Builder
 public class ApplicationDto {
-    private int id;
+    private Integer id;
 
     @NotEmpty
     private String name;

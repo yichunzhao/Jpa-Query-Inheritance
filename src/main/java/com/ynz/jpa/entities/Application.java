@@ -12,8 +12,8 @@ import java.util.Set;
 @Entity
 public class Application {
     @Id
-    @GeneratedValue
-    private int id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
 
     @Column(nullable = false, unique = true)
     private String name;

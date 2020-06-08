@@ -18,7 +18,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 public class ReleaseDto {
-    private int id;
+    private Integer id;
 
     private String releaseDate;
 

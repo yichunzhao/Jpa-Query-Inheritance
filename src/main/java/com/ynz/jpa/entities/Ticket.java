@@ -11,8 +11,8 @@ import javax.persistence.*;
 @JsonIgnoreProperties("application")
 public class Ticket {
     @Id
-    @GeneratedValue
-    private int id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
 
     private String title;
     private String description;

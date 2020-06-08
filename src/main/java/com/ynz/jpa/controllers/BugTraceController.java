@@ -51,7 +51,7 @@ public class BugTraceController {
 
         if (added == null) return new ResponseEntity(null, null, HttpStatus.CONFLICT);
 
-        URI callback = builder.path("/application").buildAndExpand(added.getId()).toUri();
+        URI callback = builder.path("/trace/application").pathSegment("{id}").buildAndExpand(added.getId()).toUri();
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(callback);
 
@@ -111,7 +111,8 @@ public class BugTraceController {
     }
 
     @PostMapping("/release/{appId}/{releaseId}")
-    public ResponseEntity<ReleaseDto> addApplicationToRelease(@PathVariable("appId") int appId, @PathVariable("releaseId") int releaseId) {
+    public ResponseEntity<ReleaseDto> addApplicationToRelease(@PathVariable("appId") int appId,
+                                                              @PathVariable("releaseId") int releaseId) {
         log.info("In http request handler: addApplicationToRelease ");
 
         Release updated = releaseService.addApplication(appId, releaseId);
@@ -120,7 +121,9 @@ public class BugTraceController {
     }
 
     @GetMapping("/enhancementsWithApp/{applicationId}")
-    public ResponseEntity<EnhancementDto> getEnhancementsWithApp(@PathVariable("applicationId") int applicationId) {
+    public ResponseEntity<EnhancementDto> getEnhancementsWithApp(
+            @PathVariable("applicationId") int applicationId, UriComponentsBuilder builder) {
+
         log.info("get enhancements by application id ");
 
         List<EnhancementDto> found = applicationService.getEnhancementsWithApps(applicationId)
@@ -128,8 +131,12 @@ public class BugTraceController {
                 .map(enhancement -> EnhancementDto.toDto(enhancement))
                 .collect(toList());
 
-        return new ResponseEntity(found, HttpStatus.FOUND);
+        URI callBack = builder.path("trace").path("enhancementsWithApp")
+                .pathSegment("{applicationId}").buildAndExpand(applicationId).toUri();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(callBack);
 
+        return new ResponseEntity(found, headers, HttpStatus.FOUND);
     }
 
 
