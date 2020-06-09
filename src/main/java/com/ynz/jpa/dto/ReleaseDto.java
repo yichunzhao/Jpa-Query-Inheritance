@@ -1,6 +1,5 @@
 package com.ynz.jpa.dto;
 
-import com.ynz.jpa.entities.Application;
 import com.ynz.jpa.entities.Bug;
 import com.ynz.jpa.entities.Enhancement;
 import com.ynz.jpa.entities.Release;
@@ -45,8 +44,8 @@ public class ReleaseDto {
         //release.setApplication(this.application);
         release.setReleaseDate(LocalDate.parse(this.releaseDate));
         release.setDescription(this.description);
-        release.setEnhancements(this.enhancements.stream().map(EnhancementDto::toDomain).collect(toSet()));
-        release.setBugs(this.bugs.stream().map(BugDto::toDomain).collect(toSet()));
+        release.setEnhancements(enhancements != null ? this.enhancements.stream().map(EnhancementDto::toDomain).collect(toSet()) : new HashSet<>());
+        release.setBugs(bugs != null ? this.bugs.stream().map(BugDto::toDomain).collect(toSet()) : new HashSet<>());
         return release;
     }
 

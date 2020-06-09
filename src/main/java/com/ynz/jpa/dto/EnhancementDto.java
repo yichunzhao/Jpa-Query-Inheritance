@@ -4,6 +4,8 @@ import com.ynz.jpa.entities.Enhancement;
 import com.ynz.jpa.entities.Priority;
 import lombok.*;
 
+import java.util.Optional;
+
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
@@ -15,7 +17,7 @@ public class EnhancementDto extends TicketDto {
     public Enhancement toDomain() {
         Enhancement enhancement = new Enhancement();
         enhancement.setDuplicate(this.duplicate);
-        enhancement.setPriority(Priority.valueOf(this.priority));
+        enhancement.setPriority(priority!=null?Priority.valueOf(this.priority):null);
         enhancement.setApplication(this.application);
         enhancement.setRelease(this.release);
         enhancement.setDescription(this.description);
