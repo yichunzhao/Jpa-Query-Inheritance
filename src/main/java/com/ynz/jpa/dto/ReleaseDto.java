@@ -13,6 +13,8 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
+import static java.util.stream.Collectors.toSet;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -24,37 +26,40 @@ public class ReleaseDto {
 
     private String description;
 
-    private Application application;
+    private Integer applicationId;
 
-    private Set<Bug> bugs = new HashSet<>();
+    private Set<BugDto> bugs = new HashSet<>();
 
-    private Set<Enhancement> enhancements = new HashSet<>();
+    private Set<EnhancementDto> enhancements = new HashSet<>();
 
     public void addBug(Bug bug) {
-        this.bugs.add(bug);
+        this.bugs.add(BugDto.toDto(bug));
     }
 
     public void addEnhancement(Enhancement enhancement) {
-        this.enhancements.add(enhancement);
+        this.enhancements.add(EnhancementDto.toDto(enhancement));
     }
 
     public Release toDomain() {
         Release release = new Release();
-        release.setApplication(this.application);
+        //release.setApplication(this.application);
         release.setReleaseDate(LocalDate.parse(this.releaseDate));
         release.setDescription(this.description);
-        release.setEnhancements(this.enhancements);
-        release.setBugs(this.bugs);
+        release.setEnhancements(this.enhancements.stream().map(EnhancementDto::toDomain).collect(toSet()));
+        release.setBugs(this.bugs.stream().map(BugDto::toDomain).collect(toSet()));
         return release;
     }
 
     public static ReleaseDto toDto(Release release) {
         ReleaseDto releaseDto = new ReleaseDto();
         releaseDto.setId(release.getId());
-        releaseDto.setApplication(release.getApplication());
-        releaseDto.setBugs(release.getBugs());
+
+        //releaseDto.setApplicationId(release.getApplication().getId());
+
+        releaseDto.setBugs(release.getBugs().stream().map(b -> BugDto.toDto(b)).collect(toSet()));
         releaseDto.setDescription(release.getDescription());
-        releaseDto.setEnhancements(release.getEnhancements());
+        releaseDto.setEnhancements(release.getEnhancements().stream()
+                .map(e -> EnhancementDto.toDto(e)).collect(toSet()));
         releaseDto.setReleaseDate(release.getReleaseDate() != null ? release.getReleaseDate().toString() : "");
 
         return releaseDto;

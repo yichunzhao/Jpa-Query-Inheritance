@@ -45,7 +45,8 @@ public class BugTraceController {
     private IReleaseService releaseService;
 
     @PostMapping("/application")
-    public ResponseEntity<ApplicationDto> createApplication(@RequestBody ApplicationDto applicationDto, UriComponentsBuilder builder) {
+    public ResponseEntity<ApplicationDto> createApplication(@RequestBody ApplicationDto applicationDto,
+                                                            UriComponentsBuilder builder) {
         log.info("in http request handler: createApplication ");
         Application added = applicationService.addApplication(applicationDto.toDomain());
 
@@ -98,19 +99,15 @@ public class BugTraceController {
     }
 
     @PostMapping("/release")
-    public ResponseEntity<ReleaseDto> addRelease(@RequestBody ReleaseDto releaseDto, UriComponentsBuilder builder) {
+    public ResponseEntity<ReleaseDto> createRelease(@RequestBody ReleaseDto releaseDto, UriComponentsBuilder builder) {
         log.info("In http request handler: addRelease ");
         Release added = releaseService.addRelease(releaseDto.toDomain());
         if (added == null) return new ResponseEntity(HttpStatus.CONFLICT);
 
-        URI callback = builder.path("/release").buildAndExpand(added.getId()).toUri();
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(callback);
-
-        return new ResponseEntity(ReleaseDto.toDto(added), headers, HttpStatus.CREATED);
+        return new ResponseEntity(ReleaseDto.toDto(added), HttpStatus.CREATED);
     }
 
-    @PostMapping("/release/{appId}/{releaseId}")
+    @PostMapping("/release/{releaseId}/application/{appId}")
     public ResponseEntity<ReleaseDto> addApplicationToRelease(@PathVariable("appId") int appId,
                                                               @PathVariable("releaseId") int releaseId) {
         log.info("In http request handler: addApplicationToRelease ");
