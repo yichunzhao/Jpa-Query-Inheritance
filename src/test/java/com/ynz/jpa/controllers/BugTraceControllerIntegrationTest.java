@@ -4,38 +4,44 @@ import com.ynz.jpa.config.MyTestConfiguration;
 import com.ynz.jpa.dto.ApplicationDto;
 import com.ynz.jpa.dto.BugDto;
 import com.ynz.jpa.dto.ReleaseDto;
+import com.ynz.jpa.service.ApplicationService;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.test.context.jdbc.Sql;
 
 import java.time.LocalDate;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 /**
  * demo an Integration test on a controller. An integration test includes all layers.
  * difference between mockMvc and testRestTemplate
  * <p>
- * mockMvc maybe used for a server-side or an unit test;
- * testRestTemplate used for testing services from a client-side.
+ * mockMvc is good for testing server-side logic;
+ * testRestTemplate is good for testing services from a client-side.
+ * So it is good to have both type of tests.
+ * </p>
+ *
+ * <p>
+ * @Sql Path Resource Semantics
+ * Each path is interpreted as a Spring Resource. A plain path (for example, "schema.sql") is treated as a classpath
+ * resource that is relative to the package in which the test class is defined. A path starting with a slash is treated
+ * as an absolute classpath resource (for example, "/org/example/schema.sql"). A path that references a URL
+ * (for example, a path prefixed with classpath:, file:, http:) is loaded by using the specified resource protocol.
  * </p>
  */
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @Import(MyTestConfiguration.class)
-@Transactional
 @Slf4j
 class BugTraceControllerIntegrationTest {
     @LocalServerPort
@@ -46,6 +52,9 @@ class BugTraceControllerIntegrationTest {
 
     @Autowired
     private StringBuilder uriBuilder;
+
+    @Autowired
+    private ApplicationService applicationService;
 
 
     @Test
@@ -64,17 +73,19 @@ class BugTraceControllerIntegrationTest {
         assertThat(applicationDto.getId(), greaterThan(0));
     }
 
+
     @Test
+    @Sql({"/cleanTables.sql", "/populateTestData.sql"})//@Sql happens before class level transactional.
     public void testGetApplicationById() {
-        //using the pre-populated data: Expected
+        //Expected: the pre-populated data.
         String applicationName = "my-application-001";
         String owner = "ynz";
         int id = 1;
 
+        String uri = uriBuilder.append(port).append("/trace/application/{id}").toString();
+
         ResponseEntity<ApplicationDto> response = testRestTemplate.getForEntity(
-                uriBuilder.append(port).append("/trace/application/{id}").toString(),
-                ApplicationDto.class,
-                1);
+                uri, ApplicationDto.class, 1);
         assertThat(response.getStatusCode(), is(HttpStatus.FOUND));
 
         ApplicationDto applicationDto = response.getBody();
@@ -84,6 +95,7 @@ class BugTraceControllerIntegrationTest {
     }
 
     @Test
+    @Sql({"/cleanTables.sql"})
     void testCreateRelease() {
         String description = "release_description";
         String releaseDate = LocalDate.of(2020, 10, 12).toString();
@@ -101,9 +113,6 @@ class BugTraceControllerIntegrationTest {
 
     @Test
     void testCreateBug() {
-//        String description = "bug_description";
-//        String title = "bad_ass";
-
         String rootCause = "root_cause";
         int severity = 10;
 

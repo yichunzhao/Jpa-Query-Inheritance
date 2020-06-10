@@ -28,7 +28,7 @@ public class ApplicationDto {
     @NotEmpty
     private String owner;
 
-    private Set<ReleaseDto> releaseDTOs = new HashSet<>();
+    private Set<ReleaseDto> releaseDTOs;
 
     public Application toDomain() {
         Application application = new Application();

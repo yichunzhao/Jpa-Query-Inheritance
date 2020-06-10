@@ -11,14 +11,12 @@ import com.ynz.jpa.service.IApplicationService;
 import com.ynz.jpa.service.IReleaseService;
 import com.ynz.jpa.service.ITicketService;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
@@ -27,6 +25,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -91,7 +90,7 @@ class BugTraceControllerTest {
     }
 
     @Test
-    public void testCreateApplicationIsExited_ThenReturnConflictStatusCode() throws Exception {
+    public void whenApplicationIsExited_ThenReturnConflictStatusCode() throws Exception {
         String owner = "YNZ";
         String name = "My_Application";
 
@@ -112,11 +111,33 @@ class BugTraceControllerTest {
 
         ArgumentCaptor<Application> argument = ArgumentCaptor.forClass(Application.class);
         verify(applicationService, times(1)).addApplication(argument.capture());
-        assertThat(applicationDto.toDomain(),is(argument.getValue()));
+        assertThat(applicationDto.toDomain(), is(argument.getValue()));
     }
 
     @Test
-    public void testPostRelease() throws Exception {
+    public void whenApplicationIsExisted_GetItById() throws Exception {
+        Integer id = 100;
+        String owner = "YNZ";
+        String name = "My_Application";
+
+        Application application = new Application();
+        application.setId(id);
+        application.setOwner(owner);
+        application.setName(name);
+
+        when(applicationService.getApplicationById(any(Integer.class))).thenReturn(application);
+
+        mockMvc.perform(get("/trace/application/{id}", id).contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isFound());
+
+        ArgumentCaptor<Integer> argumentCaptor = ArgumentCaptor.forClass(Integer.class);
+        verify(applicationService,times(1)).getApplicationById(argumentCaptor.capture());
+        assertThat(id,is(argumentCaptor.getValue()));
+    }
+
+    @Test
+    public void testCreateRelease() throws Exception {
         int releaseId = 12;
         String releaseDate = LocalDate.of(2020, 12, 10).toString();
         String releaseDescription = "release-description";
@@ -140,7 +161,7 @@ class BugTraceControllerTest {
 
         ArgumentCaptor<Release> argument = ArgumentCaptor.forClass(Release.class);
         verify(releaseService, times(1)).addRelease(argument.capture());
-        assertThat(releaseDto.toDomain(),is(argument.getValue()));
+        assertThat(releaseDto.toDomain(), is(argument.getValue()));
     }
 
 
