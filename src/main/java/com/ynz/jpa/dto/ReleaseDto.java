@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Future;
+import javax.validation.constraints.FutureOrPresent;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
@@ -21,6 +23,7 @@ import static java.util.stream.Collectors.toSet;
 public class ReleaseDto {
     private Integer id;
 
+    @FutureOrPresent
     private String releaseDate;
 
     private String description;

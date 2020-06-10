@@ -8,7 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
-import java.util.HashSet;
 import java.util.Set;
 
 import static java.util.stream.Collectors.toSet;
@@ -23,6 +22,7 @@ public class ApplicationDto {
     @NotEmpty
     private String name;
 
+    @NotEmpty
     private String description;
 
     @NotEmpty

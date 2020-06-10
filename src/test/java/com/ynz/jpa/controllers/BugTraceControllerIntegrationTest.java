@@ -6,6 +6,8 @@ import com.ynz.jpa.dto.BugDto;
 import com.ynz.jpa.dto.ReleaseDto;
 import com.ynz.jpa.service.ApplicationService;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -32,6 +34,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
  * </p>
  *
  * <p>
+ *
  * @Sql Path Resource Semantics
  * Each path is interpreted as a Spring Resource. A plain path (for example, "schema.sql") is treated as a classpath
  * resource that is relative to the package in which the test class is defined. A path starting with a slash is treated
@@ -56,6 +59,15 @@ class BugTraceControllerIntegrationTest {
     @Autowired
     private ApplicationService applicationService;
 
+    @BeforeEach
+    void initTest() {
+        log.info(".......................................................................");
+    }
+
+    @AfterEach
+    void cleanUp() {
+        log.info(".......................................................................");
+    }
 
     @Test
     public void testCreateApplication() {
@@ -72,7 +84,6 @@ class BugTraceControllerIntegrationTest {
         assertThat(applicationDto, hasProperty("owner", equalTo(owner)));
         assertThat(applicationDto.getId(), greaterThan(0));
     }
-
 
     @Test
     @Sql({"/cleanTables.sql", "/populateTestData.sql"})//@Sql happens before class level transactional.

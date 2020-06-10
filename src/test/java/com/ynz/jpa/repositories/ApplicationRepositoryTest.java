@@ -2,10 +2,9 @@ package com.ynz.jpa.repositories;
 
 import com.ynz.jpa.entities.Application;
 import com.ynz.jpa.entities.Enhancement;
-import com.ynz.jpa.entities.Priority;
+import com.ynz.jpa.model.Priority;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;

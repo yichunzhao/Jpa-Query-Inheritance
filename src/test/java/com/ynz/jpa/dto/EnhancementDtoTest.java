@@ -1,6 +1,7 @@
 package com.ynz.jpa.dto;
 
-import com.ynz.jpa.entities.Priority;
+import com.ynz.jpa.entities.Enhancement;
+import com.ynz.jpa.model.Priority;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,8 +9,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.*;
 
 @Slf4j
 @DisplayName("EnhancementDto tests")
@@ -72,7 +72,27 @@ class EnhancementDtoTest {
         log.info("Another EnhancementDto hashcode: " + anotherEnhancementDto.hashCode());
 
         assertThat(enhancementDto.hashCode(), is(anotherEnhancementDto.hashCode()));
+    }
 
+    @Test
+    public void testToDomain() {
+        String priority = Priority.HIGH.name();
+        EnhancementDto enhancementDto = EnhancementDto.builder().priority(priority).build();
+        assertThat(enhancementDto, hasProperty("priority", equalTo(priority)));
+        assertThat(enhancementDto, hasProperty("duplicate", is(false)));
+        assertThat(enhancementDto, hasProperty("releaseDto", is(nullValue())));
+        assertThat(enhancementDto, hasProperty("applicationDto", is(nullValue())));
+    }
+
+    @Test
+    public void testToDtoExposingNullPoint() {
+
+        Enhancement enhancement = new Enhancement();
+        EnhancementDto enhancementDto = EnhancementDto.toDto(enhancement);
+        assertThat(enhancementDto, hasProperty("releaseDto", is(nullValue())));
+        assertThat(enhancementDto, hasProperty("applicationDto", is(nullValue())));
+        assertThat(enhancementDto, hasProperty("priority", is(nullValue())));
+        assertThat(enhancementDto, hasProperty("duplicate", is(false)));
     }
 
 }

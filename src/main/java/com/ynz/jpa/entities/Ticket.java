@@ -3,12 +3,14 @@ package com.ynz.jpa.entities;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 
 @Data
 @MappedSuperclass
 @JsonIgnoreProperties("application")
+
 public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

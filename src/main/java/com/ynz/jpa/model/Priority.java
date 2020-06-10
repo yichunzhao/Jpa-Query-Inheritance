@@ -1,4 +1,4 @@
-package com.ynz.jpa.entities;
+package com.ynz.jpa.model;
 
 public enum Priority {
     LOW, MEDIUM, HIGH

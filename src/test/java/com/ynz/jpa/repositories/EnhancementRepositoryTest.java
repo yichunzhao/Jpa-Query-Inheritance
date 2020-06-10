@@ -2,7 +2,7 @@ package com.ynz.jpa.repositories;
 
 import com.ynz.jpa.entities.Application;
 import com.ynz.jpa.entities.Enhancement;
-import com.ynz.jpa.entities.Priority;
+import com.ynz.jpa.model.Priority;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;

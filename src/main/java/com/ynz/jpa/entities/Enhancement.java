@@ -1,5 +1,6 @@
 package com.ynz.jpa.entities;
 
+import com.ynz.jpa.model.Priority;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -11,7 +12,7 @@ import javax.persistence.Enumerated;
 @Entity
 @EqualsAndHashCode(callSuper = true)
 public class Enhancement extends Ticket {
-    private Boolean duplicate;
+    private boolean duplicate;
 
     @Enumerated(EnumType.STRING)
     private Priority priority;
