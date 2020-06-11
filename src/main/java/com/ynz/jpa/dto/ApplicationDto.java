@@ -30,6 +30,10 @@ public class ApplicationDto {
 
     private Set<ReleaseDto> releaseDTOs;
 
+    private Set<BugDto> bugDTOs;
+
+    private Set<EnhancementDto> enhancementDTOs;
+
     public Application toDomain() {
         Application application = new Application();
         application.setId(this.id);
@@ -46,8 +50,10 @@ public class ApplicationDto {
         applicationDto.setDescription(application.getDescription());
         applicationDto.setName(application.getName());
         applicationDto.setOwner(application.getOwner());
-        applicationDto.setReleaseDTOs(application.getReleases()
-                .stream().map(r -> ReleaseDto.toDto(r)).collect(toSet()));
+        applicationDto.setReleaseDTOs(application.getReleases().stream().map(r -> ReleaseDto.toDto(r)).collect(toSet()));
+
+        applicationDto.setBugDTOs(application.getBugs().stream().map(b -> BugDto.toDto(b)).collect(toSet()));
+        applicationDto.setEnhancementDTOs(application.getEnhancements().stream().map(e -> EnhancementDto.toDto(e)).collect(toSet()));
 
         return applicationDto;
     }
