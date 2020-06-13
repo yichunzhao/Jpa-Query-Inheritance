@@ -119,7 +119,7 @@ class BugTraceControllerIntegrationTest {
         ReleaseDto releaseDto = response.getBody();
         assertThat(releaseDto, hasProperty("description", equalTo(description)));
         assertThat(releaseDto, hasProperty("releaseDate", equalTo(releaseDate)));
-        assertThat(releaseDto.getId(), greaterThan(0));
+        assertThat(releaseDto.getId(), not(emptyString()));
     }
 
     @Test

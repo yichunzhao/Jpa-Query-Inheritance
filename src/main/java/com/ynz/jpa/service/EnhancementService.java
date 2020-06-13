@@ -4,11 +4,13 @@ import com.ynz.jpa.entities.Enhancement;
 import com.ynz.jpa.exceptions.NotFoundException;
 import com.ynz.jpa.repositories.EnhancementRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service("enhancementService")
+@Transactional
 public class EnhancementService implements ITicketService<Enhancement> {
 
     private EnhancementRepository enhancementRepository;

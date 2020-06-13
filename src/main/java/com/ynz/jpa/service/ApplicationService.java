@@ -5,10 +5,12 @@ import com.ynz.jpa.entities.Enhancement;
 import com.ynz.jpa.exceptions.NotFoundException;
 import com.ynz.jpa.repositories.ApplicationRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class ApplicationService implements IApplicationService {
     private ApplicationRepository applicationRepository;
 

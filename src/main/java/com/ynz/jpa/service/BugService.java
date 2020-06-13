@@ -4,11 +4,13 @@ import com.ynz.jpa.entities.Bug;
 import com.ynz.jpa.exceptions.NotFoundException;
 import com.ynz.jpa.repositories.BugRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service("bugService")
+@Transactional
 public class BugService implements ITicketService<Bug> {
 
     private BugRepository bugRepository;

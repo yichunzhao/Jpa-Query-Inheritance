@@ -13,5 +13,4 @@ public interface BugRepository extends CrudRepository<Bug, Integer> {
     @Query("select b from Bug b where b.severity = 1")
     List<Bug> findSevereBugs();
 
-
 }

@@ -27,6 +27,7 @@ import static java.util.stream.Collectors.toList;
 
 @RestController
 @RequestMapping("/trace")
+@CrossOrigin
 @Slf4j
 public class BugTraceController {
 

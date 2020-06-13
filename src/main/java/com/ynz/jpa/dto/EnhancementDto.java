@@ -58,7 +58,8 @@ public class EnhancementDto extends TicketDto {
 
         enhancementDto.setDuplicate(enhancement.isDuplicate());
 
-        Optional.ofNullable(enhancement.getPriority()).ifPresent(p -> enhancementDto.setPriority(p.name()));
+        Optional.ofNullable(enhancement.getPriority())
+                .ifPresent(p -> enhancementDto.setPriority(p.name()));
 
         return enhancementDto;
     }
