@@ -1,5 +1,6 @@
 package com.ynz.jpa.controllers;
 
+import com.ynz.jpa.converter.ApplicationConverter;
 import com.ynz.jpa.dto.ApplicationDto;
 import com.ynz.jpa.dto.BugDto;
 import com.ynz.jpa.dto.EnhancementDto;
@@ -57,7 +58,7 @@ public class BugTraceController {
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(callback);
 
-        return new ResponseEntity(ApplicationDto.toDto(added), headers, HttpStatus.CREATED);
+        return new ResponseEntity(ApplicationConverter.create().toDto(added), headers, HttpStatus.CREATED);
 
     }
 
@@ -65,7 +66,7 @@ public class BugTraceController {
     public ResponseEntity<ApplicationDto> getApplication(@PathVariable("id") int id) {
         log.info("in http request handler: getApplication ");
         Application found = applicationService.getApplicationById(id);
-        return new ResponseEntity(ApplicationDto.toDto(found), HttpStatus.FOUND);
+        return new ResponseEntity(ApplicationConverter.create().toDto(found), HttpStatus.FOUND);
     }
 
     @PostMapping("/bug")

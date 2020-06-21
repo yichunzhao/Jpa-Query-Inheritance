@@ -1,5 +1,6 @@
 package com.ynz.jpa.dto;
 
+import com.ynz.jpa.converter.ApplicationConverter;
 import com.ynz.jpa.entities.Bug;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -44,7 +45,7 @@ public class BugDto extends TicketDto {
         bugDto.setDescription(bug.getDescription());
 
         Optional.ofNullable(bug.getApplication())
-                .ifPresent(application -> bugDto.setApplicationDto(ApplicationDto.toDto(application)));
+                .ifPresent(application -> bugDto.setApplicationDto(ApplicationConverter.create().toDto(application)));
 
         Optional.ofNullable(bug.getRelease())
                 .ifPresent(release -> bugDto.setReleaseDto(ReleaseDto.toDto(release)));

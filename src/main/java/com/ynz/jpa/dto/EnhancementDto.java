@@ -1,5 +1,7 @@
 package com.ynz.jpa.dto;
 
+import com.ynz.jpa.converter.ApplicationConverter;
+import com.ynz.jpa.entities.Application;
 import com.ynz.jpa.entities.Enhancement;
 import com.ynz.jpa.model.Priority;
 import lombok.AllArgsConstructor;
@@ -51,7 +53,7 @@ public class EnhancementDto extends TicketDto {
         enhancementDto.setDescription(enhancement.getDescription());
 
         Optional.ofNullable(enhancement.getApplication())
-                .ifPresent(a -> enhancementDto.setApplicationDto(ApplicationDto.toDto(a)));
+                .ifPresent(a -> enhancementDto.setApplicationDto(ApplicationConverter.create().toDto(a)));
 
         Optional.ofNullable(enhancement.getRelease())
                 .ifPresent(r -> enhancementDto.setReleaseDto(ReleaseDto.toDto(r)));
