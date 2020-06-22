@@ -1,6 +1,7 @@
 package com.ynz.jpa.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ynz.jpa.converter.ApplicationConverter;
 import com.ynz.jpa.dto.ApplicationDto;
 import com.ynz.jpa.dto.ReleaseDto;
 import com.ynz.jpa.entities.Application;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -36,6 +38,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 
 @WebMvcTest(controllers = BugTraceController.class)
+@Import(ApplicationConverter.class)
 class BugTraceControllerTest {
 
     @MockBean
@@ -57,6 +60,11 @@ class BugTraceControllerTest {
 
     @Autowired
     private ObjectMapper mapper;
+
+
+    @Autowired
+    private ApplicationConverter applicationConverter;
+
 
     @Test
     public void testCreateApplication() throws Exception {
@@ -86,7 +94,7 @@ class BugTraceControllerTest {
 
         ArgumentCaptor<Application> argument = ArgumentCaptor.forClass(Application.class);
         verify(applicationService, times(1)).addApplication(argument.capture());
-        assertThat(applicationDto.toDomain(), is(argument.getValue()));
+        assertThat(applicationConverter.toDomain(applicationDto), is(argument.getValue()));
     }
 
     @Test
@@ -111,7 +119,7 @@ class BugTraceControllerTest {
 
         ArgumentCaptor<Application> argument = ArgumentCaptor.forClass(Application.class);
         verify(applicationService, times(1)).addApplication(argument.capture());
-        assertThat(applicationDto.toDomain(), is(argument.getValue()));
+        assertThat(applicationConverter.toDomain(applicationDto), is(argument.getValue()));
     }
 
     @Test
@@ -132,8 +140,8 @@ class BugTraceControllerTest {
                 .andExpect(status().isFound());
 
         ArgumentCaptor<Integer> argumentCaptor = ArgumentCaptor.forClass(Integer.class);
-        verify(applicationService,times(1)).getApplicationById(argumentCaptor.capture());
-        assertThat(id,is(argumentCaptor.getValue()));
+        verify(applicationService, times(1)).getApplicationById(argumentCaptor.capture());
+        assertThat(id, is(argumentCaptor.getValue()));
     }
 
     @Test

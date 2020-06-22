@@ -1,6 +1,8 @@
 package com.ynz.jpa.dto;
 
+import com.ynz.jpa.converter.ApplicationConverter;
 import com.ynz.jpa.entities.Application;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -8,11 +10,17 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 class ApplicationDtoTest {
+    private static ApplicationConverter applicationConverter;
+
+    @BeforeAll
+    static void setup(){
+        applicationConverter = new ApplicationConverter();
+    }
 
     @Test
     public void testToDomainExposingNullPoint() {
         ApplicationDto applicationDto = ApplicationDto.builder().build();
-        Application application = applicationDto.toDomain();
+        Application application = applicationConverter.toDomain(applicationDto);
 
         assertThat(application, hasProperty("id"));
         assertThat(application, hasProperty("name"));
@@ -26,7 +34,7 @@ class ApplicationDtoTest {
     public void testToDtoExposingNullPoint() {
         Application application = new Application();
 
-        ApplicationDto applicationDto = ApplicationDto.toDto(application);
+        ApplicationDto applicationDto = ApplicationConverter.create().toDto(application);
         assertThat(applicationDto, hasProperty("id", is(nullValue())));
         assertThat(applicationDto, hasProperty("name", is(nullValue())));
         assertThat(applicationDto, hasProperty("owner", is(nullValue())));

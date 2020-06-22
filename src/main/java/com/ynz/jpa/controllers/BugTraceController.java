@@ -46,11 +46,14 @@ public class BugTraceController {
     @Autowired
     private IReleaseService releaseService;
 
+    @Autowired
+    private ApplicationConverter applicationConverter;
+
     @PostMapping("/application")
     public ResponseEntity<ApplicationDto> createApplication(@RequestBody ApplicationDto applicationDto,
                                                             UriComponentsBuilder builder) {
         log.info("in http request handler: createApplication ");
-        Application added = applicationService.addApplication(applicationDto.toDomain());
+        Application added = applicationService.addApplication(applicationConverter.toDomain(applicationDto));
 
         if (added == null) return new ResponseEntity(null, null, HttpStatus.CONFLICT);
 

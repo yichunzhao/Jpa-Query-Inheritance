@@ -19,7 +19,11 @@ public class BugDto extends TicketDto {
     private int severity;
     private String rootCause;
 
-    public BugDto(Integer id, String title, String description, ApplicationDto application, ReleaseDto release, int severity, String rootCause) {
+    private ApplicationConverter applicationConverter;
+
+    public BugDto(Integer id, String title, String description, ApplicationDto application,
+                  ReleaseDto release, int severity, String rootCause,
+                  ApplicationConverter applicationConverter) {
         super(id, title, description, application, release);
         this.severity = severity;
         this.rootCause = rootCause;
@@ -29,7 +33,7 @@ public class BugDto extends TicketDto {
         Bug bug = new Bug();
         bug.setRootCause(this.rootCause);
         bug.setSeverity(this.severity);
-        bug.setApplication(applicationDto != null ? applicationDto.toDomain() : null);
+        bug.setApplication(applicationDto != null ? applicationConverter.toDomain(applicationDto) : null);
         bug.setRelease(releaseDto != null ? releaseDto.toDomain() : null);
         bug.setTitle(this.title);
         return bug;

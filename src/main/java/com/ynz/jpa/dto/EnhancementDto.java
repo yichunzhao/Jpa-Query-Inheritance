@@ -1,7 +1,6 @@
 package com.ynz.jpa.dto;
 
 import com.ynz.jpa.converter.ApplicationConverter;
-import com.ynz.jpa.entities.Application;
 import com.ynz.jpa.entities.Enhancement;
 import com.ynz.jpa.model.Priority;
 import lombok.AllArgsConstructor;
@@ -27,8 +26,11 @@ public class EnhancementDto extends TicketDto {
     @NotEmpty(message = "must have a priority.")
     private String priority;
 
+    private ApplicationConverter applicationConverter;
+
     public EnhancementDto(Integer id, String title, String description, ApplicationDto applicationDto,
-                          ReleaseDto releaseDto, boolean duplicate, String priority) {
+                          ReleaseDto releaseDto, boolean duplicate, String priority,
+                          ApplicationConverter applicationConverter) {
         super(id, title, description, applicationDto, releaseDto);
         this.duplicate = duplicate;
         this.priority = priority;
@@ -38,7 +40,7 @@ public class EnhancementDto extends TicketDto {
         Enhancement enhancement = new Enhancement();
         enhancement.setDuplicate(this.duplicate);
         enhancement.setPriority(priority != null ? Priority.valueOf(this.priority) : null);
-        enhancement.setApplication(applicationDto != null ? applicationDto.toDomain() : null);
+        enhancement.setApplication(applicationDto != null ? applicationConverter.toDomain(applicationDto) : null);
         enhancement.setRelease(releaseDto != null ? releaseDto.toDomain() : null);
         enhancement.setDescription(this.description);
         enhancement.setTitle(this.title);
