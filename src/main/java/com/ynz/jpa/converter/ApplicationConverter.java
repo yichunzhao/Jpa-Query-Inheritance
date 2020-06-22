@@ -1,21 +1,35 @@
 package com.ynz.jpa.converter;
 
 import com.ynz.jpa.dto.ApplicationDto;
-import com.ynz.jpa.dto.BugDto;
-import com.ynz.jpa.dto.EnhancementDto;
-import com.ynz.jpa.dto.ReleaseDto;
 import com.ynz.jpa.entities.Application;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
 
 import static java.util.stream.Collectors.toSet;
 
 @Component
+@NoArgsConstructor
 @Scope("prototype")
-public class ApplicationConverter implements converter<ApplicationDto, Application> {
+public class ApplicationConverter implements Converter<ApplicationDto, Application> {
+    private BugConverter bugConverter;
+    private EnhancementConverter enhancementConverter;
+    private ReleaseConverter releaseConverter;
 
-    public static ApplicationConverter create() {
-        return new ApplicationConverter();
+    @Autowired
+    public ApplicationConverter(BugConverter bugConverter, EnhancementConverter enhancementConverter, ReleaseConverter releaseConverter) {
+        this.bugConverter = bugConverter;
+        this.enhancementConverter = enhancementConverter;
+        this.releaseConverter = releaseConverter;
+    }
+
+    @PostConstruct
+    private void postConstruct() {
+        bugConverter.setApplicationConverter(this);
+        enhancementConverter.setApplicationConverter(this);
     }
 
     @Override
@@ -40,9 +54,9 @@ public class ApplicationConverter implements converter<ApplicationDto, Applicati
         applicationDto.setDescription(application.getDescription());
         applicationDto.setName(application.getName());
         applicationDto.setOwner(application.getOwner());
-        applicationDto.setReleaseDTOs(application.getReleases().stream().map(r -> ReleaseDto.toDto(r)).collect(toSet()));
-        applicationDto.setBugDTOs(application.getBugs().stream().map(b -> BugDto.toDto(b)).collect(toSet()));
-        applicationDto.setEnhancementDTOs(application.getEnhancements().stream().map(e -> EnhancementDto.toDto(e)).collect(toSet()));
+        applicationDto.setReleaseDTOs(application.getReleases().stream().map(releaseConverter::toDto).collect(toSet()));
+        applicationDto.setBugDTOs(application.getBugs().stream().map(bugConverter::toDto).collect(toSet()));
+        applicationDto.setEnhancementDTOs(application.getEnhancements().stream().map(enhancementConverter::toDto).collect(toSet()));
 
         return applicationDto;
     }

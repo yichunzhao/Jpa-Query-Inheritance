@@ -1,15 +1,23 @@
 package com.ynz.jpa.dto;
 
+import com.ynz.jpa.converter.ApplicationConverter;
+import com.ynz.jpa.converter.BugConverter;
 import com.ynz.jpa.entities.Bug;
 import com.ynz.jpa.model.Severity;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
-
+@SpringBootTest
 class BugDtoTest {
+    @Autowired
+    private ApplicationConverter applicationConverter;
 
+    @Autowired
+    private BugConverter bugConverter;
 
     @Test
     public void testLombokBuilderOnInheritance() {
@@ -29,7 +37,8 @@ class BugDtoTest {
     @Test
     public void testToDtoExposingNullPoint() {
         Bug bug = new Bug();//using an empty bug to explore null point exceptions.
-        BugDto bugDto = BugDto.toDto(bug);
+
+        BugDto bugDto = bugConverter.toDto(bug);
         assertThat(bugDto, hasProperty("rootCause", is(nullValue())));
         assertThat(bugDto, hasProperty("severity", equalTo(0)));
         assertThat(bugDto, hasProperty("applicationDto", is(nullValue())));
@@ -39,13 +48,12 @@ class BugDtoTest {
     @Test
     public void testToDomainExposingNullPoint() {
         BugDto bugDto = new BugDto();//using an empty ButDto to explore null point exception.
-        Bug bug = bugDto.toDomain();
+        Bug bug = bugConverter.toDomain(bugDto);
 
         assertThat(bug, hasProperty("rootCause", is(nullValue())));
         assertThat(bug, hasProperty("severity", equalTo(0)));
         assertThat(bug, hasProperty("application", is(nullValue())));
         assertThat(bug, hasProperty("release", is(nullValue())));
     }
-
 
 }

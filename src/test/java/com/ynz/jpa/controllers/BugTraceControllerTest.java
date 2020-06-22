@@ -2,6 +2,9 @@ package com.ynz.jpa.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ynz.jpa.converter.ApplicationConverter;
+import com.ynz.jpa.converter.BugConverter;
+import com.ynz.jpa.converter.EnhancementConverter;
+import com.ynz.jpa.converter.ReleaseConverter;
 import com.ynz.jpa.dto.ApplicationDto;
 import com.ynz.jpa.dto.ReleaseDto;
 import com.ynz.jpa.entities.Application;
@@ -38,7 +41,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 
 @WebMvcTest(controllers = BugTraceController.class)
-@Import(ApplicationConverter.class)
+@Import({ApplicationConverter.class, ReleaseConverter.class, BugConverter.class, EnhancementConverter.class})
 class BugTraceControllerTest {
 
     @MockBean
@@ -61,10 +64,11 @@ class BugTraceControllerTest {
     @Autowired
     private ObjectMapper mapper;
 
-
     @Autowired
     private ApplicationConverter applicationConverter;
 
+    @Autowired
+    private ReleaseConverter releaseConverter;
 
     @Test
     public void testCreateApplication() throws Exception {
@@ -169,7 +173,7 @@ class BugTraceControllerTest {
 
         ArgumentCaptor<Release> argument = ArgumentCaptor.forClass(Release.class);
         verify(releaseService, times(1)).addRelease(argument.capture());
-        assertThat(releaseDto.toDomain(), is(argument.getValue()));
+        assertThat(releaseConverter.toDomain(releaseDto), is(argument.getValue()));
     }
 
 
