@@ -1,5 +1,9 @@
 package com.ynz.jpa.controllers;
 
+import com.ynz.jpa.converter.ApplicationConverter;
+import com.ynz.jpa.converter.BugConverter;
+import com.ynz.jpa.converter.EnhancementConverter;
+import com.ynz.jpa.converter.ReleaseConverter;
 import com.ynz.jpa.dto.ApplicationDto;
 import com.ynz.jpa.dto.BugDto;
 import com.ynz.jpa.dto.EnhancementDto;
@@ -45,11 +49,23 @@ public class BugTraceController {
     @Autowired
     private IReleaseService releaseService;
 
+    @Autowired
+    private ApplicationConverter applicationConverter;
+
+    @Autowired
+    private BugConverter bugConverter;
+
+    @Autowired
+    private ReleaseConverter releaseConverter;
+
+    @Autowired
+    private EnhancementConverter enhancementConverter;
+
     @PostMapping("/application")
     public ResponseEntity<ApplicationDto> createApplication(@RequestBody ApplicationDto applicationDto,
                                                             UriComponentsBuilder builder) {
         log.info("in http request handler: createApplication ");
-        Application added = applicationService.addApplication(applicationDto.toDomain());
+        Application added = applicationService.addApplication(applicationConverter.toDomain(applicationDto));
 
         if (added == null) return new ResponseEntity(null, null, HttpStatus.CONFLICT);
 
@@ -57,22 +73,21 @@ public class BugTraceController {
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(callback);
 
-        return new ResponseEntity(ApplicationDto.toDto(added), headers, HttpStatus.CREATED);
-
+        return new ResponseEntity(applicationConverter.toDto(added), headers, HttpStatus.CREATED);
     }
 
     @GetMapping("/application/{id}")
     public ResponseEntity<ApplicationDto> getApplication(@PathVariable("id") int id) {
         log.info("in http request handler: getApplication ");
         Application found = applicationService.getApplicationById(id);
-        return new ResponseEntity(ApplicationDto.toDto(found), HttpStatus.FOUND);
+        return new ResponseEntity(applicationConverter.toDto(found), HttpStatus.FOUND);
     }
 
     @PostMapping("/bug")
     public ResponseEntity<BugDto> createBug(@RequestBody BugDto bugDto, UriComponentsBuilder builder) {
         log.info("In http request handler: createBug ");
         //Bug added = bugService.addBug(bugDto.toDomain());
-        Bug added = bugService.addTicket(bugDto.toDomain());
+        Bug added = bugService.addTicket(bugConverter.toDomain(bugDto));
 
         if (added == null) return new ResponseEntity(HttpStatus.CONFLICT);
 
@@ -81,14 +96,14 @@ public class BugTraceController {
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(callback);
 
-        return new ResponseEntity(BugDto.toDto(added), headers, HttpStatus.CREATED);
+        return new ResponseEntity(bugConverter.toDto(added), headers, HttpStatus.CREATED);
     }
 
     @PostMapping("/enhancement")
     public ResponseEntity<Enhancement> createEnhancement(@RequestBody EnhancementDto enhancementDto, UriComponentsBuilder builder) {
         log.info("In http request handler: createEnhancement ");
         //Enhancement added = enhancementService.addEnhancement(enhancementDto.toDomain());
-        Enhancement added = enhancementService.addTicket(enhancementDto.toDomain());
+        Enhancement added = enhancementService.addTicket(enhancementConverter.toDomain(enhancementDto));
 
         if (added == null) return new ResponseEntity<>(HttpStatus.CONFLICT);
 
@@ -96,16 +111,16 @@ public class BugTraceController {
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(callback);
 
-        return new ResponseEntity(EnhancementDto.toDto(added), headers, HttpStatus.CREATED);
+        return new ResponseEntity(enhancementConverter.toDto(added), headers, HttpStatus.CREATED);
     }
 
     @PostMapping("/release")
     public ResponseEntity<ReleaseDto> createRelease(@RequestBody ReleaseDto releaseDto, UriComponentsBuilder builder) {
         log.info("In http request handler: addRelease ");
-        Release added = releaseService.addRelease(releaseDto.toDomain());
+        Release added = releaseService.addRelease(releaseConverter.toDomain(releaseDto));
         if (added == null) return new ResponseEntity(HttpStatus.CONFLICT);
 
-        return new ResponseEntity(ReleaseDto.toDto(added), HttpStatus.CREATED);
+        return new ResponseEntity(releaseConverter.toDto(added), HttpStatus.CREATED);
     }
 
     @PostMapping("/release/{releaseId}/application/{appId}")
@@ -115,7 +130,7 @@ public class BugTraceController {
 
         Release updated = releaseService.addApplication(appId, releaseId);
 
-        return new ResponseEntity(ReleaseDto.toDto(updated), HttpStatus.OK);
+        return new ResponseEntity(releaseConverter.toDto(updated), HttpStatus.OK);
     }
 
     @GetMapping("/enhancementsWithApp/{applicationId}")
@@ -126,7 +141,7 @@ public class BugTraceController {
 
         List<EnhancementDto> found = applicationService.getEnhancementsWithApps(applicationId)
                 .stream()
-                .map(enhancement -> EnhancementDto.toDto(enhancement))
+                .map(enhancement -> enhancementConverter.toDto(enhancement))
                 .collect(toList());
 
         URI callBack = builder.path("trace").path("enhancementsWithApp")

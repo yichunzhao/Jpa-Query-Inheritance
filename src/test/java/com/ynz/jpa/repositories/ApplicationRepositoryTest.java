@@ -80,8 +80,6 @@ class ApplicationRepositoryTest {
         log.info("++++++whenGivenTwoDifferentApplication_ThenItReturnCountEqualTwo()");
         Iterable<Application> applications = applicationRepository.findAll();
 
-
-
         String applicationName1 = "new-application-1";
         String owner1 = "owner-001";
 

@@ -1,19 +1,24 @@
 package com.ynz.jpa.dto;
 
+import com.ynz.jpa.converter.EnhancementConverter;
 import com.ynz.jpa.entities.Enhancement;
 import com.ynz.jpa.model.Priority;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
+@SpringBootTest
 @Slf4j
-@DisplayName("EnhancementDto tests")
 class EnhancementDtoTest {
+
+    @Autowired
+    private EnhancementConverter enhancementConverter;
 
     @BeforeEach
     void init() {
@@ -88,7 +93,7 @@ class EnhancementDtoTest {
     public void testToDtoExposingNullPoint() {
 
         Enhancement enhancement = new Enhancement();
-        EnhancementDto enhancementDto = EnhancementDto.toDto(enhancement);
+        EnhancementDto enhancementDto = enhancementConverter.toDto(enhancement);
         assertThat(enhancementDto, hasProperty("releaseDto", is(nullValue())));
         assertThat(enhancementDto, hasProperty("applicationDto", is(nullValue())));
         assertThat(enhancementDto, hasProperty("priority", is(nullValue())));
