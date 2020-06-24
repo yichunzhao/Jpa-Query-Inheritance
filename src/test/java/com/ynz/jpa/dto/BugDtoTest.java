@@ -2,16 +2,21 @@ package com.ynz.jpa.dto;
 
 import com.ynz.jpa.converter.ApplicationConverter;
 import com.ynz.jpa.converter.BugConverter;
+import com.ynz.jpa.converter.EnhancementConverter;
+import com.ynz.jpa.converter.ReleaseConverter;
 import com.ynz.jpa.entities.Bug;
 import com.ynz.jpa.model.Severity;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
-@SpringBootTest
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = {ApplicationConverter.class, BugConverter.class, EnhancementConverter.class, ReleaseConverter.class})
 class BugDtoTest {
     @Autowired
     private ApplicationConverter applicationConverter;

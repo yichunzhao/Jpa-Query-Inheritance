@@ -39,6 +39,8 @@ public class ReleaseConverter implements Converter<ReleaseDto, Release> {
 
     @Override
     public ReleaseDto toDto(Release release) {
+        if (release == null) return null;
+
         ReleaseDto releaseDto = new ReleaseDto();
 
         Integer id = release.getId();

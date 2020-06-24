@@ -46,6 +46,8 @@ public class EnhancementConverter implements Converter<EnhancementDto, Enhanceme
 
     @Override
     public EnhancementDto toDto(Enhancement enhancement) {
+        if (enhancement == null) return null;
+
         EnhancementDto enhancementDto = new EnhancementDto();
 
         enhancementDto.setId(enhancement.getId());
