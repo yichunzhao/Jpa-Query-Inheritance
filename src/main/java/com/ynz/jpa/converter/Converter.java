@@ -1,7 +1,7 @@
 package com.ynz.jpa.converter;
 
 /**
- * converting between Dto and Entity.
+ * A converter interface converting between Dto and Entity.
  *
  * @param <D> Dto
  * @param <E> Entity
