@@ -1,9 +1,7 @@
 package com.ynz.jpa.dto;
 
-import com.ynz.jpa.converter.ApplicationConverter;
-import com.ynz.jpa.converter.BugConverter;
+import com.ynz.jpa.config.ConvertersForTest;
 import com.ynz.jpa.converter.EnhancementConverter;
-import com.ynz.jpa.converter.ReleaseConverter;
 import com.ynz.jpa.entities.Enhancement;
 import com.ynz.jpa.model.Priority;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +17,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {ApplicationConverter.class, BugConverter.class, EnhancementConverter.class, ReleaseConverter.class})
+@ContextConfiguration(classes = {ConvertersForTest.class})
 @Slf4j
 class EnhancementDtoTest {
 

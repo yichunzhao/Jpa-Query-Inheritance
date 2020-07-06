@@ -1,9 +1,8 @@
 package com.ynz.jpa.dto;
 
+import com.ynz.jpa.config.ConvertersForTest;
 import com.ynz.jpa.converter.ApplicationConverter;
 import com.ynz.jpa.converter.BugConverter;
-import com.ynz.jpa.converter.EnhancementConverter;
-import com.ynz.jpa.converter.ReleaseConverter;
 import com.ynz.jpa.entities.Bug;
 import com.ynz.jpa.model.Severity;
 import org.junit.jupiter.api.Test;
@@ -16,7 +15,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {ApplicationConverter.class, BugConverter.class, EnhancementConverter.class, ReleaseConverter.class})
+@ContextConfiguration(classes = {ConvertersForTest.class})
 class BugDtoTest {
     @Autowired
     private ApplicationConverter applicationConverter;
