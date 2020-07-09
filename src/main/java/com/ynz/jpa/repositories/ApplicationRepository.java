@@ -20,5 +20,4 @@ public interface ApplicationRepository extends CrudRepository<Application, Integ
     @Query("select count(a)>0 from Application a where a.name = :name and a.owner =:owner")
     boolean applicationExists(@Param("name") String name, @Param("owner") String owner);
 
-
 }

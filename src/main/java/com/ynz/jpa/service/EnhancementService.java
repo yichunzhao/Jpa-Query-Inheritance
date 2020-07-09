@@ -13,7 +13,7 @@ import java.util.List;
 @Transactional
 public class EnhancementService implements ITicketService<Enhancement> {
 
-    private EnhancementRepository enhancementRepository;
+    private final EnhancementRepository enhancementRepository;
 
     public EnhancementService(EnhancementRepository enhancementRepository) {
         this.enhancementRepository = enhancementRepository;
