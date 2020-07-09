@@ -12,7 +12,7 @@ import java.util.List;
 @Service
 @Transactional
 public class ApplicationService implements IApplicationService {
-    private ApplicationRepository applicationRepository;
+    private final ApplicationRepository applicationRepository;
 
     public ApplicationService(ApplicationRepository applicationRepository) {
         this.applicationRepository = applicationRepository;

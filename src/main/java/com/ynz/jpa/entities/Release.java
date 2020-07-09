@@ -3,6 +3,7 @@ package com.ynz.jpa.entities;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -25,6 +26,7 @@ public class Release {
     @ManyToOne
     @JoinColumn
     @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private Application application;
 
     @OneToMany(mappedBy = "release", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)

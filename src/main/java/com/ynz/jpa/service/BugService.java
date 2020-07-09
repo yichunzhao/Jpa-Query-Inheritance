@@ -12,8 +12,7 @@ import java.util.List;
 @Service("bugService")
 @Transactional
 public class BugService implements ITicketService<Bug> {
-
-    private BugRepository bugRepository;
+    private final BugRepository bugRepository;
 
     public BugService(BugRepository bugRepository) {
         this.bugRepository = bugRepository;

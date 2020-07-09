@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ReleaseService implements IReleaseService {
-    private ReleaseRepository releaseRepository;
-    private ApplicationService applicationService;
+    private final ReleaseRepository releaseRepository;
+    private final ApplicationService applicationService;
 
     public ReleaseService(ReleaseRepository releaseRepository, ApplicationService applicationService) {
         this.releaseRepository = releaseRepository;
